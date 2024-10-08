@@ -17,7 +17,13 @@ jobs:
           mkdir artifacts
           echo "Artifact content" > artifacts/my_artifact.txt
       - name: Upload Artifacts
+        id: artifact-upload-step
         uses: actions/upload-artifact@v3
         with:
           name: ${{ inputs.artifact_name }}
           path: artifacts
+      - name: Output artifact ID
+        run: |
+         echo 'Artifact ID is ${{ steps.artifact-upload-step.outputs.artifact-id }}'
+         echo 'Artifact URL is ${{ steps.artifact-upload-step.outputs.artifact-url }}'
+        
