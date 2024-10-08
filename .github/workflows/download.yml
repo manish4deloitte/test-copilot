@@ -26,8 +26,8 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          const run_id = ${{ github.event.inputs.run_id }};
-          const artifact_name = ${{ github.event.inputs.artifact_name }};
+          const run_id = context.payload.inputs.run_id;
+          const artifact_name = context.payload.inputs.artifact_name;
           const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
             owner: context.repo.owner,
             repo: context.repo.repo,
