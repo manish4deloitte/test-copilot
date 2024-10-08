@@ -16,7 +16,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ inputs.artifact_name }}
-          path: downloaded-artifacts
+          path: artifacts
       - name: Use Artifacts
         run: |
           cat downloaded-artifacts/my_artifact.txt
