@@ -18,7 +18,7 @@ jobs:
           echo "Artifact content" > artifacts/my_artifact.txt
       - name: Upload Artifacts
         id: artifact-upload-step
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.artifact_name }}
           path: artifacts
