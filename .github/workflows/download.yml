@@ -1,0 +1,50 @@
+name: Fetch and Deploy Artifact
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: 'The run ID of the workflow that generated the artifact'
+        required: true
+        type: string
+      artifact_name:
+        description: 'The name of the artifact to download'
+        required: true
+        type: string
+
+jobs:
+  fetch-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Fetch Artifact URL
+      id: fetch-artifact-url
+      uses: actions/github-script@v6
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const run_id = ${{ github.event.inputs.run_id }};
+          const artifact_name = ${{ github.event.inputs.artifact_name }};
+          const artifacts = await github.rest.actions.listWorkflowRunArtifacts({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            run_id: run_id
+          });
+          const artifact = artifacts.data.artifacts.find(a => a.name === artifact_name);
+          if (!artifact) {
+            throw new Error(`Artifact ${artifact_name} not found`);
+          }
+          return artifact.archive_download_url;
+
+    - name: Download build artifact
+      run: |
+        curl -L -o artifact.zip -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" ${{ steps.fetch-artifact-url.outputs.result }}
+        unzip artifact.zip -d ./downloaded-artifact
+
+    - name: Deploy build artifact
+      run: |
+        # Your deployment commands here
+        cat ./downloaded-artifact/output/build.txt
