@@ -16,7 +16,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ inputs.artifact_name }}
-          run_id: 11232013466
+          run-id: 11232013466
           path: artifacts
       - name: Use Artifacts
         run: |
