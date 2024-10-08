@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v3
       - name: Download build artifact
         run: |
-          curl -L -o artifact.zip "${{ github.event.inputs.artifact_url }}"
+          curl -L -o artifact.zip "https://github.com/manish4deloitte/test-copilot/actions/runs/11232195601/artifacts/2028286093"
           unzip artifact.zip -d ./downloaded-artifact
 
       - name: Deploy build artifact
