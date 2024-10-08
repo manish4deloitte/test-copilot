@@ -1,0 +1,32 @@
+name: Build and Upload Artifact
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Build project
+      run: |
+        # Your build commands here
+        mkdir -p output
+        echo "Build output" > output/build.txt
+
+    - name: Upload build artifact
+      id: upload-artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: build-artifact
+        path: output/
+
+    - name: Print Artifact Details
+      run: |
+        echo "Artifact ID: ${{ steps.upload-artifact.outputs.artifact-id }}"
+        echo "Artifact URL: https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts"
