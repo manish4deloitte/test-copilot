@@ -47,4 +47,4 @@ jobs:
     - name: Deploy build artifact
       run: |
         # Your deployment commands here
-        cat ./downloaded-artifact/output/build.txt
+        cat ./downloaded-artifact/build.txt
