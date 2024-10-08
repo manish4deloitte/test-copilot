@@ -1,0 +1,22 @@
+name: Use Artifacts
+ 
+on:
+  workflow_dispatch:
+    inputs:
+      artifact_name:
+        description: 'Artifact name to download'
+        required: true
+ 
+jobs:
+  use:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Download Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ inputs.artifact_name }}
+          path: downloaded-artifacts
+      - name: Use Artifacts
+        run: |
+          cat downloaded-artifacts/my_artifact.txt
