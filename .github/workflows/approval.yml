@@ -31,6 +31,9 @@ jobs:
     - name: Wait for approval
       run: echo "Waiting for manual approval..."
 
+    - name: Set Approver Name
+      run: echo "APPROVER=${{ github.actor }}" >> $GITHUB_ENV
+
   deploy:
     runs-on: ubuntu-latest
     needs: [build, approval]
